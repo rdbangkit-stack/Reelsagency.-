@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reels Agency – Full Manage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=Space+Grotesk:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f4f2ee;
+    --ink: #111;
+    --muted: #888;
+    --card-light: #ffffff;
+    --card-dark: #111111;
+    --accent: #111;
+    --radius: 20px;
+    --border: rgba(0,0,0,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px 16px 60px;
+  }
+
+  /* ── noise texture ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 430px;
+    position: relative;
+  }
+
+  /* ── header ── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .handle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .date {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  /* ── hero text ── */
+  .hero {
+    text-align: center;
+    margin-bottom: 14px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.1s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: clamp(30px, 8.5vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--ink);
+
+  }
+
+  .hero h1 .line-2 {
+    display: block;
+    font-size: clamp(20px, 6vw, 28px);
+    color: #666;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  .hero-sub {
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 300px;
+    margin: 14px auto 44px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.2s forwards;
+  }
+
+  /* ── cards ── */
+  .card {
+    border-radius: var(--radius);
+    padding: 28px 26px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .card.light {
+    background: var(--card-light);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04);
+    animation: fadeUp 0.6s ease 0.3s forwards;
+  }
+
+  .card.dark {
+    background: var(--card-dark);
+    color: #fff;
+    animation: fadeUp 0.6s ease 0.45s forwards;
+  }
+
+  /* subtle grain on dark card */
+  .card.dark::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+    border-radius: var(--radius);
+  }
+
+  /* radial glow on dark card */
+  .card.dark::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* card layout */
+  .card-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+    width: fit-content;
+  }
+  .card.light .badge { color: var(--ink); border-color: rgba(0,0,0,0.3); }
+  .card.dark .badge { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  /* "BEST VALUE" strip on dark card */
+  .best-value {
+    position: absolute;
+    top: 18px; right: -28px;
+    background: #fff;
+    color: #111;
+    font-family: 'Syne', sans-serif;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 36px;
+    transform: rotate(45deg);
+    z-index: 10;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .card-desc {
+    font-size: 11px;
+    line-height: 1.55;
+    margin-bottom: 18px;
+  }
+  .card.light .card-desc { color: #777; }
+  .card.dark .card-desc { color: rgba(255,255,255,0.5); }
+
+  /* price pill */
+  .price-pill {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 9px 20px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .price-pill::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: -60%;
+    width: 40%; height: 100%;
+    background: rgba(255,255,255,0.15);
+    transform: skewX(-20deg) translateY(-50%);
+    transition: left 0.4s ease;
+  }
+  .price-pill:hover::after { left: 130%; }
+  .price-pill:hover { transform: translateY(-2px); }
+
+  .card.light .price-pill {
+    background: var(--ink);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  }
+  .card.light .price-pill:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.28); }
+
+  .card.dark .price-pill {
+    background: #fff;
+    color: #111;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  }
+  .card.dark .price-pill:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.6); }
+
+  /* right col – features */
+  .features-col {
+    padding-top: 4px;
+  }
+
+  .features-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .card.light .features-label { color: #999; }
+  .card.dark .features-label { color: rgba(255,255,255,0.4); }
+
+  .features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .features-list li {
+    font-size: 11.5px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    line-height: 1.35;
+  }
+  .card.light .features-list li { color: #333; }
+  .card.dark .features-list li { color: rgba(255,255,255,0.8); }
+
+  .feat-dot {
+    flex-shrink: 0;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card.light .feat-dot {
+    background: #f0f0f0;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+  .card.dark .feat-dot {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .feat-dot svg { width: 7px; height: 7px; }
+  .card.light .feat-dot svg { stroke: #555; }
+  .card.dark .feat-dot svg { stroke: #fff; }
+
+  /* ── divider line between cards ── */
+  .card-sep {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    opacity: 0;
+    animation: fadeUp 0.4s ease 0.38s forwards;
+  }
+  .card-sep::before, .card-sep::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+  }
+  .card-sep span {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #bbb;
+    font-weight: 500;
+  }
+
+  /* ── footer ── */
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.6s forwards;
+  }
+  .footer p {
+    font-size: 11px;
+    color: #bbb;
+    letter-spacing: 0.04em;
+  }
+  .footer-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .footer-dots span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #ddd;
+  }
+  .footer-dots span:first-child {
+    background: #111;
+    width: 18px;
+    border-radius: 999px;
+  }
+
+  /* ── animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* hover on card */
+  .card { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .card.light:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+  }
+  .card.dark:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <!-- Header -->
+  <div class="header">
+    <span class="handle">@reelsagency</span>
+    <span class="date">Feb/2026</span>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>
+      READY TO SCALE
+      <span class="line-2">YOUR CONTENT PERFORMANCE?</span>
+    </h1>
+  </div>
+
+  <p class="hero-sub">
+    A Complete Reels Management System Focused on<br>
+    Retention, Engagement, and Long-Term Growth
+  </p>
+
+  <!-- Basic Card -->
+  <div class="card light">
+    <div class="card-inner">
+      <div class="left-col">
+        <div class="badge">Basic</div>
+        <div class="card-title">One month<br>Full Manage</div>
+        <p class="card-desc">For brands that want their content handled with structured growth and consistent execution.</p>
+        <div class="price-pill">Rp 2.999.000</div>
+      </div>
+      <div class="features-col">
+        <div class="features-label">What's Included</div>
+        <ul class="features-list">
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Premium Reels Editing
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Monthly Content Planning
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Upload &amp; Scheduling
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Accounts Optimization
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Insight Monitoring
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Performance Evaluation
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Separator -->
+  <div class="card-sep"><span>or</span></div>
+
+  <!-- Quarterly Card -->
+  <div class="card dark">
+    <div class="card-inner">
+      <div class="left-col">
+        <div class="badge">Quarterly Plan</div>
+        <div class="card-title">Three month<br>Full Manage</div>
+        <p class="card-desc">Designed for brands that want stability, structured execution, and better long-term performance.</p>
+        <div class="price-pill">Rp 8.499.000</div>
+      </div>
+      <div class="features-col">
+        <div class="features-label">What's Included</div>
+        <ul class="features-list">
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Premium Reels Editing
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Monthly Content Planning
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Upload &amp; Scheduling
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Accounts Optimization
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Insight Monitoring
+          </li>
+          <li>
+            <span class="feat-dot"><svg viewBox="0 0 10 10" fill="none" stroke-width="1.8" stroke-linecap="round"><polyline points="2,5 4,7.5 8,3"/></svg></span>
+            Performance Evaluation
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>reelsagency · Full Content Management</p>
+    <div class="footer-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
