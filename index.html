@@ -19,7 +19,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://reelsagency.vercel.app/">
 <meta property="og:title" content="ReelsAgency Creative — Jasa Edit Reels & Konten Instagram Jakarta">
-<meta property="og:description" content="High-retention short-form content untuk brands & creators. Bukan sekadar editing — tapi sistem pertumbuhan. 50+ klien · 1200+ video delivered · 87% rata-rata retention rate.">
+<meta property="og:description" content="High-retention short-form content untuk brands & creators. Bukan sekadar editing — tapi sistem pertumbuhan. 50+ klien · 1200+ video delivered · 97% rata-rata retention rate.">
 <meta property="og:image" content="https://raw.githubusercontent.com/kittprofile/Reelsagency.-/main/og-image.jpg">
 <meta property="og:locale" content="id_ID">
 <meta property="og:site_name" content="ReelsAgency Creative">
@@ -842,18 +842,20 @@ body.light .ptog-btn{color:#5c5c6e;}
 .ig-thumb{
   aspect-ratio:9/16;border-radius:14px;overflow:hidden;
   background:var(--card);border:1px solid var(--border);
-  position:relative;cursor:pointer;
-  transition:transform .3s,box-shadow .3s;
+  position:relative;cursor:pointer;display:block;
+  transition:transform .3s,box-shadow .3s;text-decoration:none;
 }
 .ig-thumb:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(124,58,237,0.25);}
-.ig-thumb iframe{
-  width:100%;height:100%;border:none;pointer-events:none;
+.ig-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .3s;
 }
+.ig-thumb:hover img{transform:scale(1.04);}
 .ig-thumb-overlay{
   position:absolute;inset:0;z-index:2;
-  background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%);
+  background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 55%);
   display:flex;align-items:flex-end;padding:14px;
-  opacity:0;transition:opacity .3s;
+  opacity:1;transition:opacity .3s;
 }
 .ig-thumb:hover .ig-thumb-overlay{opacity:1;}
 .ig-play-icon{
@@ -867,11 +869,11 @@ body.light .ptog-btn{color:#5c5c6e;}
 .ig-follow-btn{
   display:inline-flex;align-items:center;gap:10px;
   padding:12px 28px;border-radius:10px;
-  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  background:linear-gradient(135deg,var(--purple),var(--purple-light));
   color:#fff;font-family:'Space Grotesk',sans-serif;
   font-size:13px;font-weight:700;text-decoration:none;letter-spacing:.5px;
   transition:opacity .2s,transform .2s;
-  box-shadow:0 4px 20px rgba(131,58,180,0.35);
+  box-shadow:0 4px 20px rgba(124,58,237,0.35);
 }
 .ig-follow-btn:hover{opacity:.9;transform:translateY(-2px);}
 .ig-follow-btn svg{width:18px;height:18px;fill:#fff;}
@@ -987,7 +989,7 @@ body.light .ig-section{background:var(--deep);}
       <div class="stat-label">Total Views <span style="color:rgba(255,255,255,0.35);font-size:9px;">/ bulan</span></div>
     </div>
     <div class="stat-item">
-      <div class="stat-num" data-target="87" data-suffix="%">0%</div>
+      <div class="stat-num" data-target="97" data-suffix="%">0%</div>
       <div class="stat-label">Avg. Retention Rate</div>
     </div>
     <div class="stat-item">
@@ -1205,22 +1207,22 @@ body.light .ig-section{background:var(--deep);}
     <h2 class="display" style="font-size:clamp(28px,5vw,42px);">LIHAT KARYA KAMI</h2>
     <p style="color:var(--gray);font-size:14px;margin-top:10px;">Hasil nyata dari klien-klien kami — langsung dari Instagram.</p>
     <div class="ig-grid">
-      <div class="ig-thumb">
-        <iframe src="https://www.instagram.com/reel/DUfXilogfAJ/embed/" scrolling="no" allowtransparency="true"></iframe>
+      <a class="ig-thumb" href="https://www.instagram.com/reel/DUfXilogfAJ/" target="_blank" rel="noopener">
+        <img src="https://wsrv.nl/?url=instagram.com/p/DUfXilogfAJ/media/?size=l&output=jpg" alt="Reel 1" loading="lazy">
         <div class="ig-thumb-overlay"><div class="ig-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-      </div>
-      <div class="ig-thumb">
-        <iframe src="https://www.instagram.com/reel/DVQxqAvAT5J/embed/" scrolling="no" allowtransparency="true"></iframe>
+      </a>
+      <a class="ig-thumb" href="https://www.instagram.com/reel/DVQxqAvAT5J/" target="_blank" rel="noopener">
+        <img src="https://wsrv.nl/?url=instagram.com/p/DVQxqAvAT5J/media/?size=l&output=jpg" alt="Reel 2" loading="lazy">
         <div class="ig-thumb-overlay"><div class="ig-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-      </div>
-      <div class="ig-thumb">
-        <iframe src="https://www.instagram.com/reel/DUSUyZGgeDU/embed/" scrolling="no" allowtransparency="true"></iframe>
+      </a>
+      <a class="ig-thumb" href="https://www.instagram.com/reel/DUSUyZGgeDU/" target="_blank" rel="noopener">
+        <img src="https://wsrv.nl/?url=instagram.com/p/DUSUyZGgeDU/media/?size=l&output=jpg" alt="Reel 3" loading="lazy">
         <div class="ig-thumb-overlay"><div class="ig-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-      </div>
-      <div class="ig-thumb">
-        <iframe src="https://www.instagram.com/reel/DUM-YPjAR2m/embed/" scrolling="no" allowtransparency="true"></iframe>
+      </a>
+      <a class="ig-thumb" href="https://www.instagram.com/reel/DUM-YPjAR2m/" target="_blank" rel="noopener">
+        <img src="https://wsrv.nl/?url=instagram.com/p/DUM-YPjAR2m/media/?size=l&output=jpg" alt="Reel 4" loading="lazy">
         <div class="ig-thumb-overlay"><div class="ig-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
-      </div>
+      </a>
     </div>
     <div class="ig-cta-row">
       <a class="ig-follow-btn" href="https://www.instagram.com/reelsagency.creative" target="_blank" rel="noopener">
@@ -1348,7 +1350,7 @@ const statsObs = new IntersectionObserver((entries) => {
         animateCount(el);
         delete el.dataset.target;
       });
-      // Animate 5-10 JT views
+      // Animate 1-5 JT views
       const viewsEl = document.getElementById('views-stat');
       if(viewsEl){
         let start = null;
@@ -1357,18 +1359,17 @@ const statsObs = new IntersectionObserver((entries) => {
           if(!start) start = ts;
           const p = Math.min((ts - start) / dur, 1);
           const ease = 1 - Math.pow(1 - p, 3);
-          const val = Math.floor(ease * 10);
-          if(p < 0.5){
-            // Phase 1: count up to 5
-            const v = Math.floor(ease * 2 * 5);
+          if(p < 0.4){
+            // Phase 1: count up to 1
+            const v = Math.floor(ease * 2.5);
             viewsEl.textContent = v + ' JT';
           } else {
-            // Phase 2: count 5 → 10
-            const v = Math.floor(5 + (ease * 2 - 1) * 5);
-            viewsEl.textContent = '5–' + Math.min(v, 10) + ' JT';
+            // Phase 2: count 1 → 5
+            const v = Math.floor(1 + (ease - 0.4) / 0.6 * 4);
+            viewsEl.textContent = '1–' + Math.min(v, 5) + ' JT';
           }
           if(p < 1) requestAnimationFrame(step);
-          else viewsEl.textContent = '5–10 JT';
+          else viewsEl.textContent = '1–5 JT';
         };
         requestAnimationFrame(step);
       }
