@@ -115,44 +115,169 @@ nav a.active{color:white;}
 .ham-btn{
   display:none;
   flex-direction:column;justify-content:center;align-items:center;
-  gap:5px;width:40px;height:40px;
+  gap:5px;width:44px;height:44px;
   background:rgba(124,58,237,0.1);
-  border:1px solid rgba(124,58,237,0.25);
-  border-radius:8px;cursor:pointer;padding:0;
-  transition:background .2s;flex-shrink:0;
+  border:1px solid rgba(124,58,237,0.3);
+  border-radius:12px;cursor:pointer;padding:0;
+  transition:background .25s,border-color .25s,box-shadow .25s;flex-shrink:0;
+  position:relative;overflow:hidden;
 }
-.ham-btn:hover{background:rgba(124,58,237,0.2);}
+.ham-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(167,139,250,0.05));
+  opacity:0;transition:opacity .25s;border-radius:12px;
+}
+.ham-btn:hover{
+  background:rgba(124,58,237,0.18);
+  border-color:rgba(124,58,237,0.5);
+  box-shadow:0 0 16px rgba(124,58,237,0.2);
+}
+.ham-btn:hover::before{opacity:1;}
+.ham-lines-wrap{
+  display:flex;flex-direction:column;gap:5px;
+  align-items:flex-end;
+  transition:transform .3s;
+}
 .ham-line{
-  display:block;width:18px;height:1.5px;
+  display:block;height:1.5px;
   background:var(--purple-light);border-radius:2px;
-  transition:transform .3s,opacity .3s;
+  transition:transform .35s cubic-bezier(.77,0,.18,1),opacity .3s,width .3s;
 }
-.ham-btn.open .ham-line:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
-.ham-btn.open .ham-line:nth-child(2){opacity:0;}
-.ham-btn.open .ham-line:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.ham-line:nth-child(1){width:18px;}
+.ham-line:nth-child(2){width:12px;}
+.ham-line:nth-child(3){width:16px;}
+.ham-btn:hover .ham-line:nth-child(2){width:18px;}
+.ham-btn:hover .ham-line:nth-child(3){width:18px;}
+.ham-btn.open .ham-line:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:18px;}
+.ham-btn.open .ham-line:nth-child(2){opacity:0;width:18px;}
+.ham-btn.open .ham-line:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:18px;}
 
 /* Mobile drawer */
 .mobile-menu{
   position:fixed;top:0;left:0;right:0;bottom:0;
-  background:rgba(7,7,8,0.97);backdrop-filter:blur(24px);
   z-index:999;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  gap:8px;
+  display:flex;flex-direction:column;
+  justify-content:flex-start;
+  align-items:stretch;
   opacity:0;pointer-events:none;
-  transition:opacity .3s;
+  transition:opacity .35s cubic-bezier(.4,0,.2,1);
+  background:#0a0a10;
+  overflow-y:auto;overflow-x:hidden;
 }
+.mobile-menu::before,.mobile-menu::after{display:none;}
 .mobile-menu.open{opacity:1;pointer-events:all;}
-.mobile-menu a{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(2rem,8vw,3.5rem);
-  letter-spacing:.05em;
-  color:rgba(255,255,255,0.5);
-  text-decoration:none;
-  transition:color .2s,transform .2s;
-  text-align:center;
-  padding:6px 0;
+/* Nav header */
+.mob-nav-header{
+  padding:80px 20px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
 }
-.mobile-menu a:hover{color:var(--purple-light);transform:translateX(6px);}
+.mob-nav-brand{display:flex;align-items:center;gap:12px;}
+.mob-nav-brand-dot{
+  font-size:22px;color:var(--purple-light);
+  text-shadow:0 0 12px rgba(167,139,250,0.5);
+}
+.mob-nav-brand-name{font-size:20px;line-height:1;}
+.mob-nav-brand-sub{font-size:10px;color:var(--gray);letter-spacing:.5px;margin-top:2px;}
+
+/* Section label */
+.mob-nav-label{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  color:rgba(255,255,255,0.25);text-transform:uppercase;
+  padding:16px 20px 6px;
+}
+
+/* Nav items container */
+.mob-menu-inner,.mob-menu-bottom{
+  display:flex;flex-direction:column;gap:2px;
+  padding:0 12px;
+}
+.mob-menu-bottom{padding-bottom:8px;}
+
+/* Each nav item */
+.mobile-menu a.mob-link{
+  display:flex;align-items:center;gap:12px;
+  padding:11px 12px;border-radius:10px;
+  text-decoration:none;
+  transition:background .18s,transform .18s;
+  position:relative;
+}
+.mobile-menu a.mob-link:hover,
+.mobile-menu a.mob-link:active{
+  background:rgba(124,58,237,0.12);
+  transform:none;
+}
+.mob-nav-icon{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  background:rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .18s;
+}
+.mob-nav-icon svg{
+  width:16px;height:16px;
+  stroke:rgba(255,255,255,0.55);fill:none;
+  stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  transition:stroke .18s;
+}
+.mobile-menu a.mob-link:hover .mob-nav-icon{background:rgba(124,58,237,0.2);}
+.mobile-menu a.mob-link:hover .mob-nav-icon svg{stroke:var(--purple-light);}
+.mob-nav-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:14px;font-weight:500;
+  color:rgba(255,255,255,0.7);
+  flex:1;letter-spacing:.2px;
+  transition:color .18s;
+}
+.mobile-menu a.mob-link:hover .mob-nav-title{color:#fff;}
+
+/* Badges */
+.mob-nav-badge{
+  font-size:9px;font-weight:700;letter-spacing:.5px;
+  padding:2px 7px;border-radius:6px;
+  background:rgba(124,58,237,0.15);
+  border:1px solid rgba(124,58,237,0.25);
+  color:var(--purple-light);flex-shrink:0;
+}
+.mob-nav-badge-hot{
+  background:rgba(239,68,68,0.1);
+  border-color:rgba(239,68,68,0.2);
+  color:#fca5a5;font-size:10px;
+}
+.mob-nav-badge-green{
+  background:rgba(16,185,129,0.1);
+  border-color:rgba(16,185,129,0.2);
+  color:#6ee7b7;
+}
+
+/* WA icon override */
+.mob-nav-icon-wa{
+  background:rgba(37,211,102,0.15)!important;
+  border:1px solid rgba(37,211,102,0.2);
+}
+.mobile-menu a.mob-link:hover .mob-nav-icon-wa{background:rgba(37,211,102,0.25)!important;}
+
+/* CTA link */
+.mob-link-cta .mob-nav-title{color:rgba(255,255,255,0.8);}
+
+/* Footer */
+.mob-nav-footer{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:16px 20px 32px;
+  font-size:10px;color:rgba(255,255,255,0.18);letter-spacing:.5px;
+  margin-top:auto;
+}
+
+/* light mode */
+body.light .mobile-menu{background:#f5f5f7;}
+body.light .mob-nav-header{border-color:rgba(0,0,0,0.08);}
+body.light .mob-nav-brand-sub{color:#5c5c6e;}
+body.light .mob-nav-label{color:rgba(0,0,0,0.25);}
+body.light .mobile-menu a.mob-link:hover{background:rgba(124,58,237,0.07);}
+body.light .mob-nav-icon{background:rgba(0,0,0,0.05);}
+body.light .mob-nav-icon svg{stroke:rgba(0,0,0,0.4);}
+body.light .mob-nav-title{color:rgba(0,0,0,0.7);}
+body.light .mobile-menu a.mob-link:hover .mob-nav-title{color:#0a0a0f;}
+body.light .mob-nav-footer{color:rgba(0,0,0,0.2);}
 .mobile-menu-footer{
   position:absolute;bottom:40px;
   font-size:11px;color:var(--gray);letter-spacing:.1em;text-align:center;
@@ -616,8 +741,6 @@ body.light .cd-label{color:#5c5c6e;}
 body.light .cd-sep{color:rgba(124,58,237,0.4);}
 /* Mobile menu stays dark */
 body.light .mobile-menu{background:rgba(245,245,247,0.97);}
-body.light .mobile-menu a{color:rgba(10,10,15,0.5);}
-body.light .mobile-menu a:hover{color:var(--purple);}
 body.light .mobile-menu-footer{color:#5c5c6e;}
 /* Label color */
 body.light .label{color:var(--purple);}
@@ -874,6 +997,322 @@ body.light .ptog-btn{color:#5c5c6e;}
   .ig-grid{grid-template-columns:repeat(2,1fr);gap:8px;}
 }
 body.light .ig-section{background:var(--deep);}
+
+/* ── WHY US ── */
+.whyus{background:var(--black);}
+.whyus-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px;}
+.whyus-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:28px 22px;position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.whyus-card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 0% 0%,rgba(124,58,237,0.08) 0%,transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.whyus-card:hover::before{opacity:1;}
+.whyus-card:hover{transform:translateY(-5px);border-color:rgba(124,58,237,0.4);box-shadow:0 14px 40px rgba(0,0,0,0.3);}
+.whyus-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.2);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.whyus-icon svg{width:22px;height:22px;stroke:var(--purple-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.whyus-card h3{font-family:'Bebas Neue',sans-serif;font-size:22px;margin-bottom:8px;}
+.whyus-card p{color:var(--gray);font-size:13px;line-height:1.65;}
+@media(max-width:768px){.whyus-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.whyus-grid{grid-template-columns:1fr;}}
+
+/* ── PROCESS TIMELINE ── */
+.process{background:var(--deep);}
+.process-wrap{position:relative;margin-top:48px;}
+.process-line{
+  position:absolute;top:28px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--purple),var(--purple-light),var(--purple),transparent);
+  opacity:0.3;
+}
+.process-steps{
+  display:grid;grid-template-columns:repeat(8,1fr);gap:8px;
+  position:relative;z-index:1;
+}
+.process-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 4px;}
+.process-dot{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--card);border:1px solid rgba(124,58,237,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--purple-light);
+  margin-bottom:14px;flex-shrink:0;
+  transition:background .3s,box-shadow .3s,transform .3s;
+  position:relative;
+}
+.process-step:hover .process-dot{
+  background:rgba(124,58,237,0.15);
+  box-shadow:0 0 20px rgba(124,58,237,0.3);
+  transform:scale(1.1);
+}
+.process-dot svg{width:20px;height:20px;stroke:var(--purple-light);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.process-title{font-size:11px;font-weight:700;letter-spacing:.5px;color:#fff;margin-bottom:5px;line-height:1.3;}
+.process-desc{font-size:10px;color:var(--gray);line-height:1.5;}
+.process-note{
+  margin-top:28px;padding:14px 20px;
+  background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.2);
+  border-radius:10px;display:flex;align-items:flex-start;gap:10px;
+}
+.process-note svg{width:16px;height:16px;stroke:var(--purple-light);fill:none;stroke-width:1.8;flex-shrink:0;margin-top:1px;}
+.process-note p{font-size:12px;color:var(--gray);line-height:1.6;}
+.process-note strong{color:var(--purple-light);}
+@media(max-width:768px){
+  .process-steps{grid-template-columns:repeat(4,1fr);gap:12px;}
+  .process-line{display:none;}
+}
+@media(max-width:480px){
+  .process-steps{grid-template-columns:repeat(2,1fr);gap:14px;}
+}
+
+/* ── TESTIMONIALS ── */
+.testimonials{background:var(--black);}
+.testi-track-wrap{overflow:hidden;margin-top:40px;position:relative;}
+.testi-track-wrap::before,.testi-track-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none;
+}
+.testi-track-wrap::before{left:0;background:linear-gradient(to right,var(--black),transparent);}
+.testi-track-wrap::after{right:0;background:linear-gradient(to left,var(--black),transparent);}
+.testi-track{
+  display:flex;gap:16px;
+  animation:testiScroll 35s linear infinite;
+  width:max-content;
+}
+.testi-track:hover{animation-play-state:paused;}
+@keyframes testiScroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+.testi-card{
+  width:280px;flex-shrink:0;
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:22px;transition:border-color .3s,transform .3s;
+}
+.testi-card:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-4px);}
+.testi-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.testi-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--purple),var(--purple-light));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:18px;color:#fff;flex-shrink:0;
+}
+.testi-name{font-size:13px;font-weight:700;color:#fff;}
+.testi-handle{font-size:11px;color:var(--gray);}
+.testi-stars{color:var(--purple-light);font-size:11px;letter-spacing:1px;margin-bottom:10px;}
+.testi-text{font-size:13px;color:rgba(255,255,255,0.65);line-height:1.65;}
+.testi-placeholder{
+  text-align:center;padding:48px 20px;
+  border:1px dashed rgba(124,58,237,0.25);border-radius:16px;
+  color:var(--gray);font-size:13px;line-height:1.7;
+  background:rgba(124,58,237,0.03);
+}
+.testi-placeholder svg{width:32px;height:32px;stroke:rgba(124,58,237,0.3);fill:none;stroke-width:1.5;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto;}
+
+/* Light mode — Why Us */
+body.light .whyus{background:var(--deep);}
+body.light .whyus-card{background:#fff;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+body.light .whyus-card h3{color:#0a0a0f;}
+body.light .whyus-card p{color:#5c5c6e;}
+
+/* Light mode — Process */
+body.light .process{background:var(--black);}
+body.light .process-dot{background:#fff;border-color:rgba(124,58,237,0.4);}
+body.light .process-title{color:#0a0a0f;}
+body.light .process-desc{color:#5c5c6e;}
+body.light .process-note{background:rgba(124,58,237,0.04);border-color:rgba(124,58,237,0.2);}
+body.light .process-note p{color:#5c5c6e;}
+
+/* Light mode — Testimonials */
+body.light .testimonials{background:var(--deep);}
+body.light .testi-card{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.06);}
+body.light .testi-name{color:#0a0a0f;}
+body.light .testi-handle{color:#5c5c6e;}
+body.light .testi-text{color:#3a3a4a;}
+body.light .testi-track-wrap::before{background:linear-gradient(to right,var(--deep),transparent);}
+body.light .testi-track-wrap::after{background:linear-gradient(to left,var(--deep),transparent);}
+body.light .testi-placeholder{background:rgba(124,58,237,0.02);border-color:rgba(124,58,237,0.2);color:#5c5c6e;}
+
+/* Light mode — IG section */
+body.light .ig-thumb{background:#eaeaef;}
+
+/* Hero section light */
+body.light .hero h1{color:#0a0a0f;}
+body.light .countdown-label{color:var(--purple);}
+body.light .process-note strong{color:var(--purple);}
+
+/* ── 3D ANDROID PHONE (Low Bezel) ── */
+.phone-testi-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  padding:40px 0 20px;position:relative;
+}
+.phone-3d{
+  position:relative;
+  transform:perspective(1200px) rotateY(-10deg) rotateX(5deg) rotateZ(-1deg);
+  transition:transform .6s cubic-bezier(.23,1,.32,1);
+  filter:drop-shadow(-24px 24px 48px rgba(124,58,237,0.3));
+}
+.phone-3d:hover{
+  transform:perspective(1200px) rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+  filter:drop-shadow(0 30px 50px rgba(124,58,237,0.2));
+}
+/* Outer shell — aluminum/glass feel */
+.phone-outer{
+  width:230px;
+  background:linear-gradient(160deg,#323240 0%,#1c1c26 40%,#141420 100%);
+  border-radius:40px;
+  padding:7px;
+  position:relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    inset 0 -1px 0 rgba(0,0,0,0.5),
+    inset 1px 0 0 rgba(255,255,255,0.06),
+    0 0 0 1px rgba(255,255,255,0.06),
+    6px 6px 20px rgba(0,0,0,0.6);
+}
+/* Subtle camera island top-right */
+.phone-camera-island{display:none;}
+/* Side buttons */
+.phone-btn-power{
+  position:absolute;right:-4px;top:100px;
+  width:4px;height:52px;
+  background:linear-gradient(to bottom,#252530,#1a1a24,#252530);
+  border-radius:0 3px 3px 0;
+  box-shadow:inset -1px 0 0 rgba(255,255,255,0.05);
+}
+.phone-btn-vol{
+  position:absolute;left:-4px;top:90px;
+  width:4px;height:36px;
+  background:linear-gradient(to bottom,#252530,#1a1a24,#252530);
+  border-radius:3px 0 0 3px;
+  box-shadow:0 44px 0 #1e1e2a, 0 44px 0 4px #252530;
+}
+/* Screen body */
+.phone-body{
+  background:#08080e;
+  border-radius:32px;
+  overflow:hidden;
+  position:relative;
+}
+/* Punch-hole camera — centered top */
+.phone-punch{
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  width:10px;height:10px;border-radius:50%;
+  background:#000;
+  border:1px solid rgba(255,255,255,0.06);
+  z-index:10;
+  box-shadow:0 0 0 1px rgba(0,0,0,0.8);
+}
+/* Screen */
+.phone-screen{
+  height:430px;
+  background:var(--card);
+  position:relative;
+  overflow:hidden;
+  border-radius:32px;
+}
+.phone-screen-inner{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  border-radius:32px;
+}
+.phone-slides{
+  display:flex;
+  height:100%;
+  width:100%;
+  transition:transform .45s cubic-bezier(.77,0,.18,1);
+}
+.phone-slide{
+  min-width:100%;
+  height:100%;
+  flex-shrink:0;
+  overflow:hidden;
+  position:relative;
+}
+.phone-slide img{
+  position:absolute;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+}
+.phone-placeholder-slide{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--card);
+}
+.phone-slide img.loading-img{
+  opacity:0;transition:opacity .3s;
+}
+.phone-slide img.loaded{opacity:1;}
+.phone-slide{position:relative;}
+.phone-slide::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,0.03) 25%,rgba(255,255,255,0.07) 50%,rgba(255,255,255,0.03) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:38px;
+  z-index:1;pointer-events:none;
+  opacity:1;transition:opacity .3s;
+}
+.phone-slide.img-loaded::before{opacity:0;}
+@keyframes shimmer{
+  0%{background-position:200% 0;}
+  100%{background-position:-200% 0;}
+}
+/* Gesture bar */
+.phone-home-bar{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  width:72px;height:3px;border-radius:3px;
+  background:rgba(255,255,255,0.18);z-index:10;
+}
+/* Screen shine overlay */
+.phone-shine{
+  position:absolute;inset:0;border-radius:38px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.04) 0%,transparent 50%);
+  pointer-events:none;z-index:5;
+}
+/* Glow under phone */
+.phone-glow{
+  position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);
+  width:200px;height:70px;
+  background:radial-gradient(ellipse,rgba(124,58,237,0.4) 0%,transparent 70%);
+  filter:blur(20px);pointer-events:none;
+}
+/* Nav dots */
+.phone-nav{
+  display:flex;gap:8px;margin-top:28px;align-items:center;
+}
+.phone-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,0.2);border:none;cursor:pointer;
+  transition:all .3s;padding:0;
+}
+.phone-dot.active{background:var(--purple-light);width:18px;border-radius:3px;}
+.phone-caption{
+  font-size:11px;color:var(--gray);margin-top:12px;
+  letter-spacing:.5px;text-align:center;
+}
+/* Light mode */
+body.light .phone-outer{
+  background:linear-gradient(160deg,#c8c8d8 0%,#a8a8bc 40%,#9898b0 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.15),0 0 0 1px rgba(0,0,0,0.08),6px 6px 20px rgba(0,0,0,0.15);
+}
+body.light .phone-body{background:#e0e0e8;}
+body.light .phone-screen{background:#e8e8f0;}
+body.light .phone-placeholder-slide{background:#e8e8f0;}
+body.light .phone-caption{color:#5c5c6e;}
+@media(max-width:768px){
+  .phone-3d{transform:perspective(1200px) rotateY(0deg) rotateX(0deg) rotateZ(0deg);}
+  .phone-outer{width:200px;}
+}
 </style>
 </head>
 <body>
@@ -885,7 +1324,7 @@ body.light .ig-section{background:var(--deep);}
 
 
 <!-- FLOATING WA BUTTON -->
-<a id="wa-float" href="https://wa.me/6287761085516?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" title="Chat WhatsApp">
+<a id="wa-float" href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" title="Chat WhatsApp">
   <span class="wa-tooltip">Chat kami di WA</span>
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
@@ -898,13 +1337,72 @@ body.light .ig-section{background:var(--deep);}
 
 <!-- MOBILE MENU DRAWER -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#content" class="mob-link">Content</a>
-  <a href="#services" class="mob-link">Services</a>
-  <a href="#pricing" class="mob-link">Pricing</a>
-  <a href="#addons" class="mob-link">Add-Ons</a>
-  <a href="#faq" class="mob-link">FAQ</a>
-  <div class="mobile-menu-line"></div>
-  <div class="mobile-menu-footer">@reelsagency.creative · Jakarta</div>
+
+  <!-- Header -->
+  <div class="mob-nav-header">
+    <div class="mob-nav-brand">
+      <div class="mob-nav-brand-dot">✦</div>
+      <div>
+        <div class="mob-nav-brand-name display">Reels<span style="color:var(--purple-light)">Agency</span></div>
+        <div class="mob-nav-brand-sub">@reelsagency.creative</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section label -->
+  <div class="mob-nav-label">MENU</div>
+
+  <!-- Nav items -->
+  <div class="mob-menu-inner">
+    <a href="#content" class="mob-link">
+      <div class="mob-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <span class="mob-nav-title">Content</span>
+      <span class="mob-nav-badge">IG</span>
+    </a>
+    <a href="#services" class="mob-link">
+      <div class="mob-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <span class="mob-nav-title">Services</span>
+    </a>
+    <a href="#pricing" class="mob-link">
+      <div class="mob-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <span class="mob-nav-title">Pricing</span>
+      <span class="mob-nav-badge mob-nav-badge-hot">🔥 Popular</span>
+    </a>
+    <a href="#addons" class="mob-link">
+      <div class="mob-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+      <span class="mob-nav-title">Add-Ons</span>
+    </a>
+    <a href="#process" class="mob-link">
+      <div class="mob-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <span class="mob-nav-title">Our Framework</span>
+    </a>
+    <a href="#testimonials" class="mob-link">
+      <div class="mob-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <span class="mob-nav-title">Testimoni</span>
+      <span class="mob-nav-badge">⭐</span>
+    </a>
+    <a href="#faq" class="mob-link">
+      <div class="mob-nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <span class="mob-nav-title">FAQ</span>
+    </a>
+  </div>
+
+  <div class="mob-nav-label" style="margin-top:8px;">QUICK ACTION</div>
+  <div class="mob-menu-bottom">
+    <a href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" class="mob-link mob-link-cta">
+      <div class="mob-nav-icon mob-nav-icon-wa">
+        <svg viewBox="0 0 24 24" style="width:16px;height:16px;fill:white;stroke:none;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </div>
+      <span class="mob-nav-title">Book Strategy Call</span>
+    </a>
+  </div>
+
+  <div class="mob-nav-footer">
+    <span>Jakarta, Indonesia</span>
+    <span>·</span>
+    <span>© 2025 ReelsAgency</span>
+  </div>
+
 </div>
 
 <!-- NAV -->
@@ -926,9 +1424,11 @@ body.light .ig-section{background:var(--deep);}
     <div style="display:flex;align-items:center;gap:10px;">
       <button id="theme-toggle-mob" title="Toggle theme" style="width:36px;height:36px;border-radius:50%;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.25);color:var(--purple-light);font-size:14px;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;">🌙</button>
       <button class="ham-btn" id="hamBtn" aria-label="Menu">
-        <span class="ham-line"></span>
-        <span class="ham-line"></span>
-        <span class="ham-line"></span>
+        <div class="ham-lines-wrap">
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+          <span class="ham-line"></span>
+        </div>
       </button>
     </div>
   </div>
@@ -939,7 +1439,7 @@ body.light .ig-section{background:var(--deep);}
 <section class="hero">
   <h1 class="display">WE BUILD REELS<br><span class="hero-grow">THAT GROW</span></h1>
   <p>High-retention short-form content untuk brands & creators. Bukan sekadar editing — tapi sistem pertumbuhan.</p>
-  <a href="https://wa.me/6287761085516?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none"><button class="btn">Book Strategy Call</button></a>
+  <a href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none"><button class="btn">Book Strategy Call</button></a>
 
   <!-- COUNTDOWN -->
   <div class="countdown-wrap fade-in">
@@ -1103,7 +1603,7 @@ body.light .ig-section{background:var(--deep);}
           <li>Delivery 3–5 hari</li>
           <li>Caption & hashtag</li>
         </ul>
-        <a href="https://wa.me/6287761085516?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none;width:100%"><button class="pc-btn" style="width:100%">Get Started</button></a>
+        <a href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none;width:100%"><button class="pc-btn" style="width:100%">Get Started</button></a>
       </div>
       <div class="pc-wrap pc-featured">
         <div class="pc-badge">⭐ Most Popular</div>
@@ -1120,7 +1620,7 @@ body.light .ig-section{background:var(--deep);}
           <li>Caption & hashtag</li>
           <li>Monthly report</li>
         </ul>
-        <a href="https://wa.me/6287761085516?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none;width:100%"><button class="pc-btn pc-btn-hot" style="width:100%">Get Started</button></a>
+        <a href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none;width:100%"><button class="pc-btn pc-btn-hot" style="width:100%">Get Started</button></a>
       </div>
       <div class="pc-wrap">
         <div class="pc-badge-value">💎 Best Value</div>
@@ -1138,7 +1638,7 @@ body.light .ig-section{background:var(--deep);}
           <li>Insight Monitoring</li>
           <li>Performance Evaluation</li>
         </ul>
-        <a href="https://wa.me/6287761085516?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none;width:100%"><button class="pc-btn" style="width:100%">Get Started</button></a>
+        <a href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none;width:100%"><button class="pc-btn" style="width:100%">Get Started</button></a>
       </div>
     </div>
   </div>
@@ -1156,6 +1656,180 @@ body.light .ig-section{background:var(--deep);}
       <div class="addon-card"><div class="addon-title">Podcast Editing</div><div class="addon-price"><span class="addon-from">Start from</span>Rp 200.000</div><div class="addon-desc">Short-form cuts optimized for social media.</div></div>
       <div class="addon-card"><div class="addon-title">Ads Video Editing</div><div class="addon-price"><span class="addon-from">Start from</span>Rp 150.000</div><div class="addon-desc">Performance-focused editing for paid campaigns.</div></div>
       <div class="addon-card"><div class="addon-title">Thumbnail Design</div><div class="addon-price">Rp 25.000</div><div class="addon-desc">Clean and conversion-driven thumbnails.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="whyus fade-in">
+  <div class="section-inner">
+    <div class="label">KENAPA PILIH KAMI</div>
+    <h2 class="display" style="font-size:clamp(32px,7vw,50px);">BEDA DARI YANG LAIN</h2>
+    <div class="whyus-grid">
+      <div class="whyus-card">
+        <div class="whyus-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3>Hook-First Editing</h3>
+        <p>Setiap video dimulai dengan hook yang dirancang khusus untuk menahan scroll di 2 detik pertama.</p>
+      </div>
+      <div class="whyus-card">
+        <div class="whyus-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <h3>Data-Driven</h3>
+        <p>Setiap keputusan editing berbasis data retention & insight — bukan feeling semata.</p>
+      </div>
+      <div class="whyus-card">
+        <div class="whyus-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <h3>Fast Turnaround</h3>
+        <p>Deadline direspek. Sistem kerja kami terstruktur agar konten selalu siap tepat waktu.</p>
+      </div>
+      <div class="whyus-card">
+        <div class="whyus-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Full Transparansi</h3>
+        <p>Monthly report, portofolio dengan izin klien, dan sistem kerja yang jelas dari awal hingga deliver.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS TIMELINE -->
+<section id="process" class="process fade-in">
+  <div class="section-inner">
+    <div class="label">HOW WE WORK</div>
+    <h2 class="display" style="font-size:clamp(32px,7vw,50px);">ALUR KERJA KAMI</h2>
+    <p style="color:var(--gray);font-size:14px;margin-top:10px;">Transparan, terstruktur, dan profesional dari awal hingga akhir.</p>
+    <div class="process-wrap">
+      <div class="process-line"></div>
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div class="process-title">Pilih Paket</div>
+          <div class="process-desc">Tentukan paket yang sesuai kebutuhan & budget</div>
+        </div>
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="process-title">DP / Bayar</div>
+          <div class="process-desc">DP wajib dilakukan sebelum produksi dimulai</div>
+        </div>
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="process-title">Konsultasi</div>
+          <div class="process-desc">Diskusi kebutuhan, target audiens & tujuan konten</div>
+        </div>
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </div>
+          <div class="process-title">Briefing</div>
+          <div class="process-desc">Klien kirim footage, referensi & arahan konten</div>
+        </div>
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
+          <div class="process-title">Produksi</div>
+          <div class="process-desc">Proses editing dengan standar high-retention</div>
+        </div>
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+          </div>
+          <div class="process-title">Revisi</div>
+          <div class="process-desc">Feedback & perbaikan sesuai jumlah revisi paket</div>
+        </div>
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><polyline points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <div class="process-title">Deliver</div>
+          <div class="process-desc">Video final dikirim, siap untuk diupload</div>
+        </div>
+        <div class="process-step">
+          <div class="process-dot">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div class="process-title">Portofolio</div>
+          <div class="process-desc">Izin posting & screenshot testimoni untuk portofolio kami</div>
+        </div>
+      </div>
+    </div>
+    <div class="process-note">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <p><strong>Catatan:</strong> Jika pelunasan belum dilakukan saat produksi selesai, video akan dikirim dengan <strong>watermark</strong> sebagai jaminan. File original dikirim setelah full payment diterima. Setiap klien menyetujui bahwa hasil kerja dapat dijadikan testimoni & portofolio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="testimonials fade-in">
+  <div class="section-inner">
+    <div class="label">TESTIMONI</div>
+    <h2 class="display" style="font-size:clamp(32px,7vw,50px);">APA KATA KLIEN</h2>
+    <p style="color:var(--gray);font-size:14px;margin-top:10px;">Real feedback dari klien yang udah kerja sama bareng kami.</p>
+    <div class="phone-testi-wrap">
+      <div class="phone-3d">
+        <div class="phone-outer">
+          <div class="phone-btn-power"></div>
+          <div class="phone-btn-vol"></div>
+          <div class="phone-body">
+            <div class="phone-punch"></div>
+            <div class="phone-screen">
+              <div class="phone-shine"></div>
+              <div class="phone-screen-inner">
+                <div class="phone-slides" id="phoneSlides">
+                  <div class="phone-slide active">
+                    <img src="https://files.catbox.moe/c7hiot.png" alt="Testimoni 1">
+                  </div>
+                  <div class="phone-slide">
+                    <img data-src="https://files.catbox.moe/cgi7uy.png" alt="Testimoni 2" class="lazy-slide">
+                  </div>
+                  <div class="phone-slide">
+                    <img data-src="https://files.catbox.moe/i495bv.png" alt="Testimoni 3" class="lazy-slide">
+                  </div>
+                  <div class="phone-slide">
+                    <img data-src="https://files.catbox.moe/qo9z0v.png" alt="Testimoni 4" class="lazy-slide">
+                  </div>
+                  <div class="phone-slide">
+                    <img data-src="https://files.catbox.moe/7ti1a0.png" alt="Testimoni 5" class="lazy-slide">
+                  </div>
+                  <div class="phone-slide">
+                    <img data-src="https://files.catbox.moe/o35jeu.png" alt="Testimoni 6" class="lazy-slide">
+                  </div>
+                  <div class="phone-slide">
+                    <img data-src="https://files.catbox.moe/in18qw.png" alt="Testimoni 7" class="lazy-slide">
+                  </div>
+                </div>
+              </div>
+              <div class="phone-home-bar"></div>
+            </div>
+          </div>
+        </div>
+        <!-- glow -->
+        <div class="phone-glow"></div>
+      </div>
+      <!-- nav dots -->
+      <div class="phone-nav">
+      <button class="phone-dot active" data-idx="0"></button>
+      <button class="phone-dot" data-idx="1"></button>
+      <button class="phone-dot" data-idx="2"></button>
+      <button class="phone-dot" data-idx="3"></button>
+      <button class="phone-dot" data-idx="4"></button>
+      <button class="phone-dot" data-idx="5"></button>
+      <button class="phone-dot" data-idx="6"></button>
+    </div>
+      <p class="phone-caption">Geser untuk lihat testimoni · Screenshot dengan izin klien</p>
     </div>
   </div>
 </section>
@@ -1184,7 +1858,7 @@ body.light .ig-section{background:var(--deep);}
     <div class="faq-bridge fade-in">
       <div class="faq-bridge-title">Masih ada pertanyaan?</div>
       <p class="faq-bridge-sub">Tim kami siap membantu Anda.</p>
-      <a href="https://wa.me/6287761085516?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none"><button class="btn" style="margin-top:0;">Jadwalkan Konsultasi</button></a>
+      <a href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none"><button class="btn" style="margin-top:0;">Jadwalkan Konsultasi</button></a>
     </div>
   </div>
 </section>
@@ -1247,7 +1921,7 @@ body.light .ig-section{background:var(--deep);}
 <div class="custom-cta fade-in">
   <p class="custom-cta-text">Need something custom?</p>
   <p class="custom-cta-sub">Contact us for tailored solutions.</p>
-  <a href="https://wa.me/6287761085516?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none"><button class="btn-outline">Talk to Our Team</button></a>
+  <a href="https://wa.me/6285803376766?text=Halo%20ReelsAgency%20Creative,%20saya%20ingin%20diskusi%20terkait%20layanan%20yang%20ditawarkan." target="_blank" rel="noopener" style="text-decoration:none"><button class="btn-outline">Talk to Our Team</button></a>
 </div>
 
 <!-- FOOTER -->
@@ -1583,6 +2257,61 @@ ptogBtns.forEach(btn => {
     }
   });
 });
+
+
+// ── 3D PHONE SLIDESHOW ──
+(function(){
+  const slides = document.getElementById('phoneSlides');
+  if(!slides) return;
+  const dots = document.querySelectorAll('.phone-dot');
+  const allSlides = document.querySelectorAll('.phone-slide');
+  let cur = 0;
+  const total = allSlides.length;
+
+  function loadSlide(idx){
+    const slide = allSlides[idx];
+    if(!slide) return;
+    const img = slide.querySelector('img.lazy-slide');
+    if(img && img.dataset.src){
+      img.classList.add('loading-img');
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+      img.classList.remove('lazy-slide');
+      img.onload = () => {
+        img.classList.add('loaded');
+        img.classList.remove('loading-img');
+        slide.classList.add('img-loaded');
+      };
+    } else if(slide.querySelector('img') && !slide.classList.contains('img-loaded')){
+      const existing = slide.querySelector('img');
+      if(existing.complete) slide.classList.add('img-loaded');
+      else existing.onload = () => slide.classList.add('img-loaded');
+    }
+  }
+
+  function goTo(idx){
+    cur = (idx + total) % total;
+    slides.style.transform = 'translateX(-' + (cur * 100) + '%)';
+    dots.forEach((d,i) => d.classList.toggle('active', i === cur));
+    // Preload current + next
+    loadSlide(cur);
+    loadSlide((cur + 1) % total);
+  }
+
+  // Preload slide 2 on init
+  loadSlide(1);
+
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
+
+  setInterval(() => goTo(cur + 1), 3500);
+
+  let startX = 0;
+  slides.addEventListener('touchstart', e => { startX = e.touches[0].clientX; },{passive:true});
+  slides.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if(Math.abs(dx) > 40) goTo(dx < 0 ? cur+1 : cur-1);
+  },{passive:true});
+})();
 
 </script>
 </body>
